@@ -2,12 +2,18 @@
 
 
 int main(){
-	cout << "Example Program to use Easysock";
-	string url = "scanme.nmap.org";
-	EasySock easysock("45.33.32.156", 80);
+	cout << "Example Program how to use Easysock" << endl;
+	cout << "Building easysock object..." << endl;
+	EasySock easysock("64.13.139.230", 23);
+	cout << "Connecting to telehack.com..." << endl;
+
 	easysock.connect_to_target();
-	easysock.send_to_target("GET / HTTP / 1.1\r\nHost: " + url + "\r\nConnection: close\r\n\r\n");
+	cout << "Sending starwars to target..." << endl;
+	easysock.send_to_target("starwars");
+	cout << "Receiving Response..." << endl;
 	string response = easysock.recv_response();
+	cout << "Response: " << response << endl;
+	cout << "Cleaning up and closing socket..." << endl;
 	easysock.clean_up();
-	cout << response << endl;
+	cout << "Example Finished!!!";
 }
