@@ -57,17 +57,12 @@ public:
         SockAddr.sin_addr.s_addr = inet_addr(ip);
     }
 
-    void connect_to_target() {
+    int connect_to_target() {
         if (connect(Socket, (SOCKADDR*)(&SockAddr), sizeof(SockAddr)) != 0) {
             cout << "Could not connect" << endl;
-            system("pause");
+            return(1);
         }
-    }
-
-    void timer_start(int* finished, int sleeptime) {
-        Sleep(sleeptime);
-        *finished = 1;
-
+        return(0);
     }
 
     void send_to_target(string raw) {
@@ -76,16 +71,10 @@ public:
 
 
     string recv_response() {
-        int finished_timer = 0;
-        thread timer(&EasySock::timer_start, this, &finished_timer, 10000);
+        int timeout = 10000;
+        setsockopt(Socket, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(int)); //setting the receive timeout
         while ((response_length = recv(Socket, buffer, 1024, 0)) > 0) {
             response += string(buffer);
-            if (finished_timer == 1) {
-                timer.join();
-                cout << "Timeout no more data recieved!" << endl;
-                finished_timer = 0;
-                return(response);
-            }
         }
         return(response);
     }
