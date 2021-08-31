@@ -11,6 +11,9 @@
   </pre>
 Easy Tcp_Ip client class just include it its easy to use see example.cpp
 
+### Usage
+Just include the class in your programm and you can start using it
+ 
 ### Ascii Art
 The Ascii Art is made with: https://patorjk.com/software/taag/
 
