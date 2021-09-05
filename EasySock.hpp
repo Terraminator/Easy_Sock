@@ -114,14 +114,15 @@ public:
     }
 
     string recv_long_response(int timeout) {
-            setsockopt(Socket, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(int));
-            while ((response_length = recv(Socket, buffer, 1024, 0)) > 0) {
-                response += string(buffer);
-            }
-            string rresponse = response;
-            response = "";
-            response_length = 0;
-            return(rresponse);
+        setsockopt(Socket, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(int));
+        while ((response_length = recv(Socket, buffer, 1024, 0)) > 0) {
+            response += string(buffer);
+        }
+        string rresponse = response;
+        response = "";
+        response_length = 0;
+        free_buffer();
+        return(rresponse);
 
     }
 
